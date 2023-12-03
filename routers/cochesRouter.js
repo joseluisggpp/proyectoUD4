@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Coche = require('../modelos/modeloCoche')
+router.use(express.json())
 
 // Obtener todos los coches
 router.get('/', async (req, res) => {

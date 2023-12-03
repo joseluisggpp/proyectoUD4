@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Concesionario = require('../modelos/modeloConcesionario')
+router.use(express.json())
 
 // Obtener todos los concesionarios
 router.get('/', async (req, res) => {

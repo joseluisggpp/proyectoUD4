@@ -13,14 +13,11 @@ const concesionariosRouter = require('./routers/concesionariosRouter')
 const cochesRouter = require('./routers/cochesRouter')
 
 // Conexión a la base de datos de mongodb.
-main().catch(err => console.log(err))
-
-async function main () {
-  await mongoose.connect('mongodb://127.0.0.1:27017/concesionariosDB')
-}
+mongoose.connect('mongodb://127.0.0.1:27017/concesionarios-cochesDB')
+  .then(() => console.log('Connected!'))
 // Utilizamos los routers.
 app.use('/concesionarios', concesionariosRouter)
-app.use('/coches', cochesRouter)
+app.use('/concesionarios/:id/coches', cochesRouter)
 
 // middleware de Express
 app.use(express.json())

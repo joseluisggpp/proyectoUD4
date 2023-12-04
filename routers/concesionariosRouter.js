@@ -15,6 +15,7 @@ router.get('/', async (req, res) => {
 
 // Crear un nuevo concesionario
 router.post('/', async (req, res) => {
+  console.log(req.body.nombre)
   const concesionarioCreado = new Concesionario({
     nombre: req.body.nombre,
     direccion: req.body.direccion,
@@ -27,7 +28,9 @@ router.post('/', async (req, res) => {
 // Obtener un concesionario por ID
 router.get('/:id', async (req, res) => {
   try {
-    const concesionarioEncontrado = await Concesionario.findOne({ _id: req.params.id })
+    const concesionarioEncontrado = await Concesionario.findOne({
+      _id: req.params.id
+    })
     if (!concesionarioEncontrado) {
       return res.status(404).json({ message: 'Concesionario no encontrado.' })
     }
@@ -59,7 +62,9 @@ router.put('/:id', async (req, res) => {
 // Borrar un concesionario por ID
 router.delete('/:id', async (req, res) => {
   try {
-    const concesionarioBorrado = await Concesionario.findOneAndDelete({ _id: req.params.id })
+    const concesionarioBorrado = await Concesionario.findOneAndDelete({
+      _id: req.params.id
+    })
     if (!concesionarioBorrado) {
       return res.status(404).json({ message: 'Concesionario no encontrado.' })
     }

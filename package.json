@@ -4,7 +4,8 @@
   "description": "Vamos a completar el proyecto que empezamos en clase.",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "start": "nodemon ./index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +14,7 @@
     "express": "^4.18.2",
     "helmet": "^7.1.0",
     "mongoose": "^8.0.2",
+    "nodemon": "^3.0.2",
     "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {

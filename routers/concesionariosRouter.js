@@ -99,7 +99,11 @@ router.post('/:id/coches', async (req, res) => {
 // Obtener un coche por ID
 router.get('/:id/coches/:idCoche', async (req, res) => {
   try {
-    const cocheEncontrado = await Concesionario.findOne({ _id: req.params.id })
+    const concesionario = await Concesionario.findOne({
+      _id: req.params.id
+    })
+    const cocheEncontrado = concesionario.coches[req.params.idCoche]
+
     if (!cocheEncontrado) {
       return res.status(404).json({ message: 'Coche no encontrado.' })
     }
@@ -112,28 +116,33 @@ router.get('/:id/coches/:idCoche', async (req, res) => {
 // Actualizar un coche por ID
 router.put('/:id/coches/:idCoche', async (req, res) => {
   try {
-    const cocheModificado = await Concesionario.findOneAndUpdate(
-      { _id: req.params.id },
-      req.body, // Los datos actualizados provienen del cuerpo de la solicitud
-      { new: true, runValidators: true }
-    )
-
+    const actualizaciones = req.body
+    const concesionario = await Concesionario.findOne({
+      _id: req.params.id
+    })
+    let cocheModificado = ''
+    concesionario.coches[req.params.idCoche] = actualizaciones
+    cocheModificado = concesionario.coches[req.params.idCoche]
     if (!cocheModificado) {
       return res.status(404).json({ message: 'Coche no encontrado.' })
     }
-
     res.json(cocheModificado)
+    concesionario.save()
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
 })
 
 // Borrar un coche por ID
-router.delete('/:id/coches/:cocheId', async (req, res) => {
+router.delete('/:id/coches/:idCoche', async (req, res) => {
   try {
-    const cocheBorrado = await Concesionario.findOneAndDelete({
+    const concesionario = await Concesionario.findOne({
       _id: req.params.id
     })
+    let cocheBorrado = ''
+    concesionario.coches.splice(req.params.idCoche, 1)
+    cocheBorrado = concesionario.coches[req.params.idCoche]
+    concesionario.save()
     if (!cocheBorrado) {
       return res.status(404).json({ message: 'Coche no encontrado.' })
     }

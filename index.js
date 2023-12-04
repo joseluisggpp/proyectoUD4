@@ -1,6 +1,11 @@
 const express = require('express')
 const helmet = require('helmet')
+// const swaggerUi = require('swagger-ui-express')
+// const swaggerDocument = require('./swagger.json')
+
 const app = express()
+// Configuración de swagger
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 // Middleware de Helmet
 app.use(helmet())
 // Incluimos mongoose.
@@ -13,7 +18,8 @@ const concesionariosRouter = require('./routers/concesionariosRouter')
 const cochesRouter = require('./routers/cochesRouter')
 
 // Conexión a la base de datos de mongodb.
-mongoose.connect('mongodb://127.0.0.1:27017/concesionarios-cochesDB')
+mongoose
+  .connect('mongodb://127.0.0.1:27017/concesionarios-cochesDB')
   .then(() => console.log('Connected!'))
 // Utilizamos los routers.
 app.use('/concesionarios', concesionariosRouter)
@@ -75,7 +81,9 @@ app.put('/concesionarios/:id', (request, response) => {
 })
 app.delete('/concesionarios/:id', (request, response) => {
   const id = request.params.id
-  concesionarios = concesionarios.filter((item, index) => index !== parseInt(id))
+  concesionarios = concesionarios.filter(
+    (item, index) => index !== parseInt(id)
+  )
 
   response.json({ message: 'Concesionario eliminado correctamente.' })
 })
@@ -117,7 +125,11 @@ app.get('/concesionarios/:id/coches/:cocheId', (request, response) => {
   const id = request.params.id
   const cocheId = request.params.cocheId
   // Si no existe el concesionario, o no tiene coches, o el coche pasado como parámetro no existe, lanzamos mensaje de error.
-  if (!concesionarios[id] || !concesionarios[id].coches || !concesionarios[id].coches[cocheId]) {
+  if (
+    !concesionarios[id] ||
+    !concesionarios[id].coches ||
+    !concesionarios[id].coches[cocheId]
+  ) {
     return response.status(404).json({ error: 'Recurso no encontrado.' })
   }
   const coche = concesionarios[id].coches[cocheId]
@@ -129,7 +141,11 @@ app.get('/concesionarios/:id/coches/:cocheId', (request, response) => {
 app.put('/concesionarios/:id/coches/:cocheId', (request, response) => {
   const id = request.params.id
   const cocheId = request.params.cocheId
-  if (!concesionarios[id] || !concesionarios[id].coches || !concesionarios[id].coches[cocheId]) {
+  if (
+    !concesionarios[id] ||
+    !concesionarios[id].coches ||
+    !concesionarios[id].coches[cocheId]
+  ) {
     return response.status(404).json({ error: 'Recurso no encontrado.' })
   }
   concesionarios[id].coches[cocheId] = request.body
@@ -142,10 +158,16 @@ app.put('/concesionarios/:id/coches/:cocheId', (request, response) => {
 app.delete('/concesionarios/:id/coches/:cocheId', (request, response) => {
   const id = request.params.id
   const cocheId = request.params.cocheId
-  if (!concesionarios[id] || !concesionarios[id].coches || !concesionarios[id].coches[cocheId]) {
+  if (
+    !concesionarios[id] ||
+    !concesionarios[id].coches ||
+    !concesionarios[id].coches[cocheId]
+  ) {
     return response.status(404).json({ error: 'Recurso no encontrado.' })
   }
   // concesionarios = concesionarios.filter((item, index) => index !== parseInt(id))
-  concesionarios[id].coches = concesionarios[id].coches.filter((item, index) => index !== parseInt(cocheId))
+  concesionarios[id].coches = concesionarios[id].coches.filter(
+    (item, index) => index !== parseInt(cocheId)
+  )
   response.json({ message: 'Coche eliminado correctamente' })
 })

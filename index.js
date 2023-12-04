@@ -15,15 +15,14 @@ const Concesionario = require('./modelos/modeloConcesionario')
 
 // Importamos los routers en la aplicación
 const concesionariosRouter = require('./routers/concesionariosRouter')
-const cochesRouter = require('./routers/cochesRouter')
 
 // Conexión a la base de datos de mongodb.
 mongoose
   .connect('mongodb://127.0.0.1:27017/concesionarios-cochesDB')
   .then(() => console.log('Connected!'))
+
 // Utilizamos los routers.
 app.use('/concesionarios', concesionariosRouter)
-app.use('/concesionarios/:id/coches', cochesRouter)
 
 // middleware de Express
 app.use(express.json())

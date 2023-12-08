@@ -1,11 +1,11 @@
 const express = require('express')
 const helmet = require('helmet')
-// const swaggerUi = require('swagger-ui-express')
-// const swaggerDocument = require('./swagger.json')
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('./swagger.json')
 
 const app = express()
 // Configuración de swagger
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 // Middleware de Helmet
 app.use(helmet())
 // Incluimos mongoose.
